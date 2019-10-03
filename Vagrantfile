@@ -58,12 +58,22 @@ Vagrant.configure("2") do |config|
     # vb.gui = true
 
     # Customize the amount of memory on the VM:
-    vb.memory = "2048"
+    vb.memory = "2548"
 	
-	# These enables USB, but as of writing this, it prevents VM from booting
-	#vb.customize ["modifyvm", :id, "--usb", "on"]
-	#vb.customize ["modifyvm", :id, "--usbehci", "on"]
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+  end
+  # Enable USB Controller on VirtualBox
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--usb", "on"]
+    vb.customize ["modifyvm", :id, "--usbehci", "on"]
+  end
+
+  # Implement determined configuration attributes
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["usbfilter", "add", "0",
+        "--target", :id,
+        "--name", "Android",
+        "--product", "Android"]
   end
   #
   # View the documentation for the provider you are using for more
@@ -76,10 +86,15 @@ Vagrant.configure("2") do |config|
     fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && swapon --show
 
 	# Install Oracle JDK 8
-	add-apt-repository ppa:webupd8team/java && \
-	apt update && \
-	echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
-	apt install -y oracle-java8-installer
+	#add-apt-repository ppa:webupd8team/java && \
+	#apt update && \
+	#echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
+	#apt install -y oracle-java8-installer
+
+	# Install open jdk 8 
+	add-apt-repository ppa:openjdk-r/ppa
+	apt-get update
+	apt-get install openjdk-8-jdk
 
 	# Install various necessary libraries
     apt-get install -y curl python-software-properties tidy xsltproc git unzip git gradle dos2unix build-essential libssl-dev

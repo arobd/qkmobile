@@ -1,3 +1,4 @@
+
 # Install meteor
 (cd ~ && curl https://install.meteor.com | sh) || exit 1
 
@@ -39,7 +40,7 @@ mkdir ~/.android/ && \
 touch ~/.android/repositories.cfg && \
 ./sdkmanager --update) || exit 1
 
-(cd ~/tools/bin && ./sdkmanager "platforms;android-26" && ./sdkmanager "platform-tools" && ./sdkmanager "build-tools;27.0.3" && ./sdkmanager "extras;android;m2repository" && ./sdkmanager "extras;google;m2repository") || exit 1
+(cd ~/tools/bin && ./sdkmanager "platforms;android-27" && ./sdkmanager "platform-tools" && ./sdkmanager "build-tools;27.0.3" && ./sdkmanager "extras;android;m2repository" && ./sdkmanager "extras;google;m2repository") || exit 1
 
 cat >> ~/.bashrc <<EOL
 export ANDROID_HOME=/home/vagrant
@@ -53,7 +54,9 @@ source ~/.bashrc
 cd /vagrant/app/
 meteor remove-platform android
 meteor add-platform android || exit 1
-meteor add cordova:onesignal-cordova-plugin@2.3.3 || exit 1
+meteor add cordova:onesignal-cordova-plugin@2.4.6 || exit 1
+meteor add ostrio:logger || exit 1
+meteor add ostrio:loggerconsole || exit 1
 
 # Done
 echo "All done. Now run: ./build.sh and see if it builds"

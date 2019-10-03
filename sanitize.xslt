@@ -47,6 +47,8 @@
 	
 	<xsl:template match="a[@href='https://play.google.com/store/apps/details?id=com.quranerkotha.app']">
 	</xsl:template>
+	<xsl:template match="img[@src='/wp-content/uploads/2016/10/Appad.png']">
+	</xsl:template>
  
 	<xsl:template match="a/@href[contains(.,'/')]">
 		<xsl:attribute name="href">
@@ -76,11 +78,11 @@
 		</xsl:attribute>
 	</xsl:template>
 
-	<xsl:template match="img/@src[starts-with(.,'https://quranerkotha.com/')]">
+	<!-- <xsl:template match="img/@src[starts-with(.,'https://quranerkotha.com/')]">
 		<xsl:attribute name="src">
 			<xsl:value-of select="concat('../', substring-after(.,'https://quranerkotha.com/'))"/>
 		</xsl:attribute>		
-	</xsl:template>
+	</xsl:template> -->
 	
 	<xsl:template match="img/@srcset">
 		<xsl:attribute name="srcset">
@@ -88,14 +90,22 @@
 		</xsl:attribute>		
 	</xsl:template>
 	
-	<xsl:template match="img/@src[starts-with(.,'http://quranerkotha.com/')]">
+	<!-- <xsl:template match="img/@src[starts-with(.,'http://quranerkotha.com/')]">
 		<xsl:attribute name="src">
 			<xsl:value-of select="concat('../', substring-after(.,'http://quranerkotha.com/'))"/>
+		</xsl:attribute>
+	</xsl:template> -->
+
+	<xsl:template match="img/@src[starts-with(.,'http://quranerkotha.com/')]">
+		<xsl:attribute name="src">
+			<xsl:value-of select="concat('https://quranerkotha.com/', substring-after(.,'http://quranerkotha.com/'))"/>
 		</xsl:attribute>
 	</xsl:template>
 	 
 	<xsl:template match="head">
 		<head>
+			<meta http-equiv="Content-Security-Policy" content="default-src *; font-src * filesystem: data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:" />
+
 			<title>কুর‘আনের কথা</title>
 		
 			<link rel="stylesheet" id="parent-style-css" href="../wp-content/themes/twentyfifteen/style.css" type="text/css" media="all" />
@@ -105,7 +115,7 @@
 		</head>
 	</xsl:template>
 	<xsl:template match="link[id='twentyfifteen-style-css']" >
-		<link rel="stylesheet" id="twentyfifteen-style-css" href="../wp-content/themes/2015-child-right-sidebar/style.css?ver=20130711" type="text/css" media="all" />
+		<link rel="stylesheet" id="twentyfifteen-style-css" href="../wp-content/themes/2015-child-right-sidebar/style.css" type="text/css" media="all" />
 	</xsl:template>
 
 </xsl:stylesheet>
